@@ -51,13 +51,14 @@ def get_emails(file):
         if not entry in list_of_emails:
             list_of_emails.append(entry)
 
+    list_of_emails.sort()
     print('EMAILS', list_of_emails)
     return list_of_emails
 
 
-def write_emails():
-    opened_emails = get_emails(file_path)
-    get_existing_emails = get_emails(existing_customers)
+def write_emails(existing_file, new_file):
+    opened_emails = get_emails(new_file)
+    get_existing_emails = get_emails(existing_file)
 
     # remove dupes comparing 'old' file to 'new' before writing to new file 
     for entry in get_existing_emails: 
@@ -70,9 +71,9 @@ def write_emails():
         write_it_to_file = file.write('\n'.join(opened_emails))
 
 
-def write_phone_numbers():
-    opened_numbers = get_phone_numbers(file_path)
-    get_existing_numbers = get_phone_numbers(existing_customers)
+def write_phone_numbers(existing_file, new_file):
+    opened_numbers = get_phone_numbers(new_file)
+    get_existing_numbers = get_phone_numbers(existing_file)
 
     # remove dupes comparing 'old' file to 'new' before writing to new file 
     for entry in get_existing_numbers: 
@@ -81,8 +82,8 @@ def write_phone_numbers():
             opened_numbers.remove(entry)
 
     # write the info to a new email.txt file
-    with open(clean_emails, 'w') as file:
-        write_it_to_file = file.write('\n'.join(opened_numbers))
+    with open(clean_phone_numbers, 'w') as file:
+        file.write('\n'.join(opened_numbers))
 
 
 # Helper functions
@@ -114,3 +115,7 @@ def number_formating_helper(checked_doc):
     
     return list_of_nums
 # get_emails()
+
+if __name__ == "__main__":
+    write_phone_numbers(existing_customers, file_path)
+    write_emails(existing_customers, file_path)
